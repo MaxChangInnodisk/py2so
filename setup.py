@@ -88,7 +88,7 @@ setup(
     name=temp_dst,
     ext_modules=cythonize(extensions),
     cmdclass = {'build_ext': build_ext},
-    # build_dir=build_path
+    build_dir=build_path
 )
 
 # remove build and `.py`
@@ -99,7 +99,7 @@ setup(
 print('renaming ...')
 for f in glob.glob(f"{temp_dst}/**/*.so", recursive=True):
     trg_f = "{}.so".format(f.split('.cpython')[0])
-    print(f, "  ->  ", trg_f)
+    print(os.path.basename(f), "  ->  ", os.path.basename(trg_f))
     os.rename(f, trg_f)
 
 # overwrite
