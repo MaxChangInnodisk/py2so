@@ -95,6 +95,13 @@ setup(
 [ os.remove(f) for f in extensions ]
 [ os.remove(f) for f in glob.glob(f"{temp_dst}/**/*.c", recursive=True) ]
 
+# remove the platform information from shared objects name 
+print('renaming ...')
+for f in glob.glob(f"{temp_dst}/**/*.so", recursive=True):
+    trg_f = "{}.so".format(f.split('.cpython')[0])
+    print(f, "  ->  ", trg_f)
+    os.rename(f, trg_f)
+
 # overwrite
 if os.path.exists(dst_path):
     shutil.rmtree(dst_path)
@@ -102,3 +109,4 @@ shutil.move(temp_dst, dst_path)
 
 # remove 
 [ shutil.rmtree(path) for path in [build_path, temp_dst] if os.path.exists(path) ]
+
